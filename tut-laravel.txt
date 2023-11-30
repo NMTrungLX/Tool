@@ -1,0 +1,33 @@
+public\files\in_toa_thuoc_ngoai_tru.pdf -> {{asset('files/in_toa_thuoc_ngoai_tru.pdf')}}" type="application/pdf" width="100%" height="900px"></object>
+<a class="nav-link {{ request()->is('tong-quan') ? 'active' : '' }}" aria-current="page" href="{{url('/tong-quan')}}">		
+<a class="nav-link {{ ( request()->is('ngoai-tru/*') or request()->is('ngoai-tru') ) ? 'active' : ''  }}" href="{{url('/ngoai-tru')}}">
+col-xl-3 col-md-4 col-xs-12 ten_cls mb-2
+
+--- Cài debug bar
+1. Chay lenh composer require barryvdh/laravel-debugbar --dev
+2. Config>app.php thêm tại provider (~line 157) 'providers' => [
+//Debug
+Barryvdh\Debugbar\ServiceProvider::class,
+
+
+-- Quay về tab trước
+href="javascript:history.back()"
+
+
+document.getElementById('gadget_url').value = '';
+
+
+https://viblo.asia/p/optimize-laravel-toi-uu-hoa-cac-truy-van-co-so-du-lieu-gDVK2Bb0KLj
+
+
+Cache:
+php artisan route:cache
+php artisan route:clear
+
+php artisan config:cache
+php artisan config:clear
+
+php artisan view:cache
+php artisan view:clear
+
+php artisan cache:clear

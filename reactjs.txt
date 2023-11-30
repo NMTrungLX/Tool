@@ -1,0 +1,18 @@
+1. Cài đặt
+npm create vite@4.1.0 > đặt tên: react-app (hoặc tên khác) > Y >  react > typescript > cd react-app > npm install
+npm create vite@latest my-react-app
+npx create-react-app react-demo
+
+Cài package sass để biên dịch scss sang css
+npm i --save sass
+
+2. Code file function đuôi tsx
+Cài đặt thư viện boostrap
+npm i bootstrap@5.2.3
+
+npm install
+npm starat
+npm run dev - chạy
+npm run build - build product
+
+
