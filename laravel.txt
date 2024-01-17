@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="{{asset('css/mycss.css')}}">
+<script src="{{asset('js/myjs.js')}}"></script>
+
+
+--- Tao project
+composer create-project laravel/laravel tenproject
+
+--- Chay sv
+php artisan serve
+
+composer create-project laravel/laravel theptaydolaravel
+
+
+--- Kết nối database
+/.env 
+
+--- Tạo model 
+php artisan make:model TênModel -c
+php artisan make:model NguoiDungModel -c
+
+--- Từ migration tạo table lên DB
+php artisan migrate:generate
+
+
+--- Tạo migration cho các bảng có trong DB
+php artisan migrate:generate
+
+--- Tạo migration cho các bảng cụ thể có trong DB
+php artisan migrate:generate table1,table2
+
+--- bỏ qua bảng 3,4
+php artisan migrate:generate table1,table2  --ignore="table3,table4" 
+
+--- Tạo migrate các bảng phụ trong 1 CSDL có sẵn
+php artisan make:migration create_flights_table
+
+VD: 
+php artisan make:migration create_nguoidung_table
+php artisan make:migration create_quyen_table
+
+-- Thực thi migration
+php artisan migrate
+
+php artisan migrate --force (bỏ qua cảnh báo confirm migrate trên production)
+
+---- 4. Activity log 
+-- Cài đặt thông qua composer:
+composer require spatie/laravel-activitylog
+
+
+-- Kiểm tra cài đặt qua config/app.php 
+'providers' => [
+    ...
+    Spatie\Activitylog\ActivitylogServiceProvider::class,
+];
+
+-- Kế đến bạn chạy dòng lệnh bên dưới để tạo bảng và model trong ứng dụng laravel:
+php artisan vendor:publish --provider="Spatie\Activitylog\ActivitylogServiceProvider" --tag="migrations"
+
+-- Sau khi chạy xong xong câu lệnh trên bạn tiếp tục chạy câu lệnh php artisan migrate để tạo ra bảng activity_log.
+
+-- Bạn cũng có thể tuỳ chỉnh thông tin với tệp cấu hình, tệp cấu hình có nội dung như bên dưới :
+
+return [
+
+    /*
+     * If set to false, no activities will be saved to the database.
+     */
+    'enabled' => env('ACTIVITY_LOGGER_ENABLED', true),
+
+    /*
+     * When the clean-command is executed, all recording activities older than
+     * the number of days specified here will be deleted.
+     */
+    'delete_records_older_than_days' => 365,
+
+    /*
+     * If no log name is passed to the activity() helper
+     * we use this default log name.
+     */
+    'default_log_name' => 'default',
+
+    /*
+     * You can specify an auth driver here that gets user models.
+     * If this is null we'll use the default Laravel auth driver.
+     */
+    'default_auth_driver' => null,
+
+    /*
+     * If set to true, the subject returns soft deleted models.
+     */
+    'subject_returns_soft_deleted_models' => false,
+
+    /*
+     * This model will be used to log activity.
+     * It should be implements the Spatie\Activitylog\Contracts\Activity interface
+     * and extend Illuminate\Database\Eloquent\Model.
+     */
+    'activity_model' => \Spatie\Activitylog\Models\Activity::class,
+
+    /*
+     * This is the name of the table that will be created by the migration and
+     * used by the Activity model shipped with this package.
+     */
+    'table_name' => 'activity_log',
+];
+Ví dụ đơn giản để ghi lại hoạt động của :
+activity()->log('Look mum, I logged something');
+
+$lastActivity = Activity::all()->last(); //Lấy ra hoạt cuối cùng
+
+$lastActivity->description; //trả về 'Look mum, I logged something';
+
+
+--- Middleware
+-- Tạo middleware 
+php artisan make:middleware KiemTraDangNhapMiddleware	
+
+
+
+--- IF ELSE
+if($user->age >= 18)
+{
+	return redirect('dashboard');
+}
+
+
+if ($request->session()->has('users')) {
+    //
+}
+
+
+--- Chuyen huong url
+
+return redirect('dang-nhap');
+
+--- SESSION
+-- Lưu giá trị và Session
+$request->session()->put('key', 'value');
+Ex: $request->session()->put('ssdangnhap',$request->txtUser);
+
+-- Xóa bỏ khỏi bộ nhớ Session Phương thức forget sẽ xóa dữ liệu trong session. Mặc khác nếu bạn muốn xóa toàn bộ Session, bạn chỉ cần dùng phương thức flush:
+$request->session()->forget('key');
+$request->session()->flush();
+
+
+-- được lưu lại và chỉ suất hiện một lần duy nhất trong lần phản hồi yêu cần tiếp theo, sau đó nó sẽ tự động xóa đi. Flash data thường dùng để biểu thị các trạng thái, thông báo, lời nhắn:
+$request->session()->flash('status', 'Task was successful!');
+
+-- Notification
+Log::info('User failed to login.', ['id' => $user->id]);

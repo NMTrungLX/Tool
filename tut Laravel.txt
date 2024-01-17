@@ -1,0 +1,133 @@
+Tạo model để setup Database > controller > view > routes
+
+1. Install composer
+2. Run cmd: "composer create-project --prefer-dist laravel/laravel NAMEProject"
+php artisan key:generate
+3. Setup DB on phpMyAdmin
+4. Change info DB in .env file
+5. Create migration (Tạo bảng CSDL) "php artisan make:migration create_NAME_table" (Here: database\migrations\)
+
+VD:
+php artisan make:migration create_students_table
+php artisan make:migration create_sis_users_table
+php artisan make:migration create_users_table
+php artisan make:migration create_nhatKy_table
+
+Thêm các column cần tạo sau: 
+	public function up()
+	{
+		Schema::create('students', function (Blueprint $table) {
+		$table->id();
+		$table->string("name");
+		$table->string("address");
+		$table->string("mobile");
+		$table->timestamps();
+		$table->softDeletes();	
+		$table->rememberToken();
+
+		$table->bigIncrements('id');	
+		$table->increments('id');
+        $table->string('first_name', 100);
+        $table->string('last_name', 100);
+		$table->boolean('confirmed');	
+		$table->date('created_at');	
+		
+		$table->dateTime('created_at');
+		$table->integer('votes');	
+		$table->ipAddress('visitor')	
+	   });
+	}
+ 
+    public function down()
+    {
+        Schema::dropIfExists('students');
+    }
+};
+6. Create Table DB từ file migration
+php artisan migrate
+
+7. Create Models
+php artisan make:model Student
+
+8. CREATE CONTROLLER (Here App\Models\): điều hướng xử lý
+----- Khai báo Model use App\Models\Student;
+php artisan make:controller StudentController --resource
+
+9. CREATE VIEW (here: resources-views)
+----- 
+10. Setting ROUTES
+----- Khai báo Controller
+Route::resource("/student", StudentController::class);
+
+9. Khác
+======= RUN 
+--- Chạy laravel
+php artisan serve
+--- Clear cache
+php artisan optimize:clear
+php artisan route:list
+php artisan route:clear
+
+
+====== DEBUG
+https://github.com/barryvdh/laravel-debugbar
+1. composer require barryvdh/laravel-debugbar --dev
+2. config/app.php
+Barryvdh\Debugbar\ServiceProvider::class, //Góc nhỏ khi cần thì hiện
+'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class, // luôn hiện
+
+
+--- Bắt buộc ktra middleware khi vào controller này
+public function __construct() {
+	$this->middleware('NameMiddleWare');
+}
+
+
+======= SWAGGER API
+Install for Larvel 7.x and 8.x more: composer require "darkaonline/l5-swagger"  (file config: vendor/darkaonline/l5-swagger/config/l5-swagger.php)
+generate_always -> true
+php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+php artisan l5-swagger:generate # optional
+
+1. composer require "darkaonline/l5-swagger"
+2. open your config/app.php and add this line: L5Swagger\L5SwaggerServiceProvider::class,
+3. php artisan vendor:publish --provider "L5Swagger\L5SwaggerServiceProvider"
+
+Thêm vào file Controller.php
+/**
+ * @OA\Info(
+ *      version="1.0.0",
+ *      title="L5 OpenApi",
+ *      description="L5 Swagger OpenApi description",
+ *      @OA\Contact(
+ *          email="darius@matulionis.lt"
+ *      ),
+ *     @OA\License(
+ *         name="Apache 2.0",
+ *         url="https://www.apache.org/licenses/LICENSE-2.0.html"
+ *     )
+ * )
+ */
+
+
+
+4. php artisan l5-swagger:generate
+5. Connect Database.
+5. Run php artisan migrate:fresh --seed
+
+200 OK
+201 Created
+204 No Content
+404 Not Found
+
+===== Edit SWAGGER
+     * description="Get info student by id", //Có cũng đc k có cũng đc
+
+
+type="string"
+type="boolean"
+type="number"
+
+
+format="email"
+format="password"
